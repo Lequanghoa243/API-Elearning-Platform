@@ -1,0 +1,27 @@
+{
+  "name": "api-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lequanghoa243/API-Elearning-Platform.git"
+  },
+  "keywords": [
+    "api",
+    "learning",
+    "platform"
+  ],
+  "author": "quanghoa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lequanghoa243/API-Elearning-Platform/issues"
+  },
+  "homepage": "https://github.com/Lequanghoa243/API-Elearning-Platform#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
