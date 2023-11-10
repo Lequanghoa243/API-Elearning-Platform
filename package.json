@@ -4,7 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": "nodemon index.js",
+    "start": "node index.js",
+    "gen_api_doc": "apidoc -i app/routes/ -o ./public/docs/"
+  },
+  "apidoc": {
+    "title": "API DOCS",
+    "version": "1.0.0",
+    "url": "http://localhost:3000",
+    "sampleUrl": "http://localhost:3000"
   },
   "repository": {
     "type": "git",
@@ -22,6 +31,13 @@
   },
   "homepage": "https://github.com/Lequanghoa243/API-Elearning-Platform#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "body-parser": "^1.17.1",
+    "cors": "^2.8.5",
+    "express": "^4.15.2",
+    "method-override": "^2.3.8"
+  },
+  "devDependencies": {
+    "apidoc": "^0.29.0",
+    "morgan": "^1.9.1"
   }
 }
