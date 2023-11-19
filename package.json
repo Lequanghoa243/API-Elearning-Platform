@@ -31,13 +31,17 @@
   },
   "homepage": "https://github.com/Lequanghoa243/API-Elearning-Platform#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.1",
     "cors": "^2.8.5",
     "express": "^4.15.2",
-    "method-override": "^2.3.8"
+    "jsonwebtoken": "^9.0.1",
+    "method-override": "^2.3.8",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.6.5"
   },
   "devDependencies": {
     "apidoc": "^0.29.0",
-    "morgan": "^1.9.1"
+    "morgan": "^1.10.0"
   }
 }
