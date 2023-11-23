@@ -5,44 +5,62 @@
 const courseService = require('../services/courses.service');
 
 module.exports = function (app) {
-    app.get('/api/v1/course', courseService.getAll);
-    /**
-     * @api {GET} /api/v1/course/:id Get One
+     /**
+     * @api {GET} /course/ Get All Courses 
      * @apiVersion 1.0.0
-     * @apiName getOne
-     * @apiGroup course
+     * @apiName getAll
+     * @apiGroup Course
      * @apiPermission Every type of user
      *
-     * @apiDescription Get one course
+     * @apiDescription Get All Courses                                                                                                                                                                                                                                                                                                                                                                                         
      *
-     * @apiParam {string} id ID of course, on params
+     * @apiParam {string} Name Name of the course, on params
      *
      * @apiExample Example usage:
-     * curl -i http://localhost:3000/api/v1/course/2
+     * curl -i http://localhost:3000/course/web-design
      *
-     * @apiSuccess {String} id the ID of course
-     * @apiSuccess {String} title title of course
+     *
+     * @apiSuccess {String} Name Title of course
      *
      * @apiSuccessExample Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *          "data":{
-     *              "id": "2",
-     *              "title": "ReactJs Course",
-     *              ...
-     *          },
-     *          "result": "ok",
-     *          "message" ""
-     *     }
-     *
-     * @apiError invalid input data
+     *     course: web design
+     * @apiError invalid-course the course is not exist in the database
      *
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 400 Bad Request
      *     {
      *       "result": "fail",
-     *       "message": "invalid input"
+     *       "message": "invalid course"
      *     }
      */
-    app.get('/api/v1/course/:id', courseService.getOne);
+    app.get('/course', courseService.getAll);
+    /**
+     * @api {GET} /course/:course Get One 
+     * @apiVersion 1.0.0
+     * @apiName getOne
+     * @apiGroup Course
+     * @apiPermission Every type of user
+     *
+     * @apiDescription Get one specific course
+     *
+     * @apiParam {string} Name Name of the course, on params
+     *
+     * @apiExample Example usage:
+     * curl -i http://localhost:3000/course/web-design
+     *
+     *
+     * @apiSuccess {String} Name Title of course
+     *
+     * @apiSuccessExample Success-Response:
+     *     course: web design
+     * @apiError invalid-course the course is not exist in the database
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 400 Bad Request
+     *     {
+     *       "result": "fail",
+     *       "message": "invalid course"
+     *     }
+     */
+    app.get('/course/:course-name', courseService.getOne);
 };

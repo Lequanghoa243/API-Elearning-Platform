@@ -1,4 +1,3 @@
-// third party components
 let Express = require('express');
 let BodyParser = require('body-parser');
 let MethodOverride = require('method-override');

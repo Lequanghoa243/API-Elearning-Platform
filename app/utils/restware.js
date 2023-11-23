@@ -1,6 +1,4 @@
-/**
- * Created by s3lab. on 1/13/2017.
- */
+
 'use strict';
 const sendSuccessOne = function(res, data, iHttpCode) {
     if (!res) {
