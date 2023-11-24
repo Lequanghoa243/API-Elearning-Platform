@@ -9,4 +9,7 @@ module.exports = {
         let id = req.params.id || '';
         res.send('course: ' + id);
     },
+    searchCourse:function (req, res){
+        
+    },
 };

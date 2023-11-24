@@ -1,7 +1,4 @@
-/**
- * Created by bioz on 1/13/2017.
- */
-// our components
+
 const courseService = require('../services/courses.service');
 
 module.exports = function (app) {
@@ -63,4 +60,5 @@ module.exports = function (app) {
      *     }
      */
     app.get('/course/:course-name', courseService.getOne);
+    app.get('/course/search',courseService.searchCourse);
 };
