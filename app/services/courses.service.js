@@ -10,6 +10,12 @@ module.exports = {
         res.send('course: ' + id);
     },
     searchCourse:function (req, res){
-        
+
+    },
+    getAllLesson:function(req,res){
+
+    },
+    getOneLesson:function(req,res){
+
     },
 };

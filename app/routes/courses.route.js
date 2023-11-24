@@ -60,5 +60,8 @@ module.exports = function (app) {
      *     }
      */
     app.get('/course/:course-name', courseService.getOne);
+    app.get('/course/:course-name/:lesson-id', courseService.getOneLesson);
     app.get('/course/search',courseService.searchCourse);
+    
+
 };
