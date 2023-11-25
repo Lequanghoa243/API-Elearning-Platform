@@ -1,6 +1,6 @@
 {
     "apps" : [{
-      "name"      : "s3lab_tpl_nodejs_mysql",
+      "name"      : "e_learning_platforms",
       "script"    : "./index.js",
       "error_file": "./logs/err_main.log",
       "out_file" : "./logs/out_main.log",
@@ -19,7 +19,7 @@
         "DB_PORT": "3306",
         "DB_USER": "root",
         "DB_PASSWORD": "",
-        "DB_NAME": "e_learning_platforms",
+        "DB_NAME": "e_learning`",
         "DB_DIALECT": "mysql"
       },
       "env_production" : {
@@ -29,7 +29,7 @@
         "DB_PORT": "3306",
         "DB_USER": "geminisoft",
         "DB_PASSWORD": "Geminisoft@",
-        "DB_NAME": "e_learning_platforms",
+        "DB_NAME": "e_learning",
         "DB_DIALECT": "mysql"
       }
     }]

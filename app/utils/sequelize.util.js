@@ -1,19 +1,19 @@
-const config = require('../configs/general.config');
 const Sequel = require('sequelize');
 
 const MySQLSequel = new Sequel(
-    config.DBConnectors.database,
-    config.DBConnectors.username,
-    config.DBConnectors.password, {
-        host: config.DBConnectors.host,
-        port: config.DBConnectors.port,
-        dialect: config.DBConnectors.dialect,
+    'e_learning',  // Database name
+    'root',         // Database username
+    null,           // Database password (set to null if there is no password)
+    {
+        host: '127.0.0.1',  // Database host
+        port: '3306',        // Database port
+        dialect: 'mysql',    // Database dialect
         logging: false,
         define: {
             underscored: false,
         },
         pool: {
-            max: 10,
+            max: 10,                             
             min: 0,
             acquire: 30000,
             idle: 100000,

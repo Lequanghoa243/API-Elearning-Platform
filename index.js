@@ -34,7 +34,7 @@ let server = require('http').createServer(App);
 
 // Start app: http://IP_Address:port
 server.listen(3000, function () {
-    console.log('API V2.1 started to listening on port %d', 3000);
+    console.log('Server is listening on port %d', 3000);
 });
 
 // expose app
