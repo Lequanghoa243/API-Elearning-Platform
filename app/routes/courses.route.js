@@ -59,9 +59,10 @@ module.exports = function (app) {
      *       "message": "invalid course"
      *     }
      */
+    app.get('/course/search',courseService.searchCourse);
     app.get('/course/:courseName', courseService.getOne);
     app.get('/course/:courseName/:lessonId', courseService.getOneLesson);
-    app.get('/course/search',courseService.searchCourse);
+    
     
 
 };

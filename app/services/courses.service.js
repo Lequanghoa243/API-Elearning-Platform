@@ -1,5 +1,7 @@
 const rest = require('../utils/restware');
 const Course = require('../models/courses.model')
+const { Op } = require('sequelize');
+const Lesson = require('../models/lesson.model')
 module.exports = {
 
     getAll: function(req, res) {
@@ -47,16 +49,74 @@ module.exports = {
         }
     },
 
-    getOne: function (req, res) {
-        let id = req.params.id || '';
-        res.send('course: ' + id);
+   
+    getOne: async function (req, res) {
+        let coursename = req.params.courseName;
+    
+        coursename = coursename.replace(/-/g, ' ');
+    
+        try {
+            const attributes = ['CourseID', 'Title', 'Description', 'NumberofLesson', 'LearningTime'];
+            const course = await Course.findOne({
+                where: { Title: coursename },
+                attributes: attributes,
+                raw: true,
+            });
+    
+            if (course) {
+                const attributesL = ['LessonID', 'CourseID', 'Title', 'Content', 'LessonOrder'];
+                const lessons = await Lesson.findAll({
+                    where: { CourseID: course.CourseID },
+                    attributes: attributesL,
+                    raw: true,
+                });
+    
+                course.Lessons = lessons;
+                return rest.sendSuccessOne(res, course, 200);
+            } else {
+                return rest.sendError(res, 1, 'unavailable_course', 400);
+            }
+        } catch (error) {
+            return rest.sendError(res, 1, 'get_one_course_fail', 400, error);
+        }
     },
-    searchCourse:function (req, res){
+    
+    
+    searchCourse: function(req, res) {
+        let searchTerm = req.query.search;
+      
+        searchTerm = searchTerm.replace(/-/g, ' ');
+    
+        try {
+            if (!searchTerm) {
+                return rest.sendError(res, 1, 'search_term_required', 400, 'Search term is required');
+            }
+    
+            Course.findAll({
+                where: {
+                    Title: { [Op.like]: `%${searchTerm}%` },
+                },
+                raw: true,
+            }).then((results) => {
+                if (results.length === 0) {
+                    // No results found
+                    return rest.sendError(res, 1, 'no_course_found', 404, 'No course found');
+                }
+    
+                return rest.sendSuccessMany(res, results, 200);
+            }).catch((error) => {
+                return rest.sendError(res, 1, 'search_course_fail', 400, error);
+            });
+        } catch (error) {
+            return rest.sendError(res, 1, 'search_course_fail', 400, error);
+        }
+    },
+    
 
-    },
     getAllLesson:function(req,res){
 
     },
+
     getOneLesson:function(req,res){
 
     },
