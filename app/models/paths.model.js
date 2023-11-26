@@ -7,9 +7,6 @@ const Path = sequelize.define('LearningPath', {
         primaryKey: true,
         allowNull: false,
     },
-    Path: {
-        type: DataTypes.STRING(255),
-    },
     Name: {
         type: DataTypes.STRING(255),
     },
