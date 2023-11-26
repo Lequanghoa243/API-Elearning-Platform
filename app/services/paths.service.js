@@ -51,38 +51,62 @@ module.exports = {
 
     getOne: async function (req, res) {
         let pathName = req.params.pathName;
+      
         pathName = pathName.replace(/-/g, ' ');
-
+    
         try {
-            const path = await Path.findOne({
+            const pathInstance = await path.findOne({
                 where: { Name: pathName },
                 raw: true,
             });
-
-            if (path) {
-                const coursesInPath = await CoursePath.findAll({
-                    where: { PathID: path.PathID },
-                    order: [['OrderC', 'ASC']], // Assuming OrderC is the correct field name
-                    include: [
-                        {
-                            model: Course,
-                            attributes: ['CourseID', 'Title', 'Description', 'NumberofLesson', 'LearningTime'],
-                            raw: true,
-                        },
-                    ],
-                    raw: true,
-                });
-
-                path.Courses = coursesInPath.map(course => course.Course);
-
-                return rest.sendSuccessOne(res, path, 200);
-            } else {
-                return rest.sendError(res, 1, 'unavailable_path', 404, 'Learning path not found');
+    
+            if (!pathInstance) {
+                return rest.sendError(res, 1, 'unavailable_path', 404);
             }
+    
+            const coursesInPath = await CoursePath.findAll({
+                where: { PathID: pathInstance.PathID },
+                attributes: ['OrderC'], // Include other attributes if needed
+                include: [
+                    {
+                        model: Course,
+                        attributes: ['CourseID', 'Title', 'Description', 'NumberofLesson', 'LearningTime'],
+                        raw: true,
+                    },
+                ],
+                order: [['OrderC', 'ASC']],
+                raw: true,
+            });
+    
+            if (coursesInPath.length === 0) {
+                return rest.sendError(res, 1, 'no_courses_in_path', 404, 'No courses found in the path');
+            }
+    
+            // Construct the response JSON
+            const pathWithCourses = {
+                id: pathInstance.PathID,
+                name: pathInstance.Name,
+                description: pathInstance.Description,
+                courses: coursesInPath.map(course => ({
+                    id: course['Course.CourseID'],
+                    title: course['Course.Title'],
+                    description: course['Course.Description'],
+                    numberOfLessons: course['Course.NumberofLesson'],
+                    learningTime: course['Course.LearningTime'],
+                    order: course['OrderC'],
+                })),
+            };
+    
+            // Sending the pathWithCourses as the response
+            return rest.sendSuccessOne(res, pathWithCourses, 200);
         } catch (error) {
+            // Logging the error
+            console.error('An error occurred in getOnePath:', error);
             return rest.sendError(res, 1, 'get_one_path_fail', 400, error);
         }
     },
+    
+    
     
     searchPath:function(req, res) {
         let searchTerm = req.query.search;

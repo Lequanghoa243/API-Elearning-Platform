@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/sequelize.util');
-
+const Course = require('./courses.model');
 
 const Lesson = sequelize.define('Lesson', {
     LessonID: {
@@ -26,5 +26,6 @@ const Lesson = sequelize.define('Lesson', {
     tableName: 'Lesson',
     timestamps: false,
 });
+Lesson.belongsTo(Course, { foreignKey: 'CourseID' });
 
 module.exports = Lesson;

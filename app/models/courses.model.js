@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/sequelize.util');
 
+
 const Course = sequelize.define('Course', {
     CourseID: {
         type: DataTypes.INTEGER,

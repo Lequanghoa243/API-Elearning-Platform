@@ -1,7 +1,8 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/sequelize.util');
-
+const Course = require('./courses.model');
+const Path = require('./paths.model')
 const CoursePath = sequelize.define('CoursePath', {
     CoursePathID: {
         type: DataTypes.INTEGER,
@@ -23,6 +24,7 @@ const CoursePath = sequelize.define('CoursePath', {
     tableName: 'CoursePath',
     timestamps: false,
 });
-
+CoursePath.belongsTo(Course, { foreignKey: 'CourseID' });
+CoursePath.belongsTo(Path,{foreignKey: 'PathID'})
 module.exports = CoursePath;
 

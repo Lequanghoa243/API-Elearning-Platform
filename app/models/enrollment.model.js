@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/sequelize.util');
-
+const Course = require('./courses.model');
+const User = require('./users.model')
 
 const Enrollment = sequelize.define('Enrollment', {
     EnrollmentID: {
@@ -24,4 +25,7 @@ const Enrollment = sequelize.define('Enrollment', {
     timestamps: false,
 });
 
+
+Enrollment.belongsTo(Course, { foreignKey: 'CourseID' });
+Enrollment.belongsTo(User, { foreignKey: 'UserID' });
 module.exports = Enrollment;
