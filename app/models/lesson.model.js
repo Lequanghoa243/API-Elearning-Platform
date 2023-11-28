@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/sequelize.util');
-const Course = require('./courses.model');
+const Course = require('./Courses.model');
 
 const Lesson = sequelize.define('Lesson', {
     LessonID: {
@@ -19,7 +19,7 @@ const Lesson = sequelize.define('Lesson', {
     Content: {
         type: DataTypes.TEXT,
     },
-    LessonOrder: {
+    OrderL: {
         type: DataTypes.INTEGER,
     },
 }, {

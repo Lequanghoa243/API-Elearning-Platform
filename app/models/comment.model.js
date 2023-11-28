@@ -1,10 +1,10 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/sequelize.util');
-const Course = require('./Courses.model');
-const User = require('./users.model')
+const User = require('./users.model');  
+const Course = require('./Courses.model');  
 
-const Enrollment = sequelize.define('Enrollment', {
-    EnrollmentID: {
+const Comment = sequelize.define('Comment', {
+    CommentID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
@@ -13,20 +13,25 @@ const Enrollment = sequelize.define('Enrollment', {
     UserID: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+            model: User,
+            key: 'UserID',
+        },
     },
     CourseID: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+            model: Course,
+            key: 'CourseID',
+        },
     },
-    EnrollmentDate: {
-        type: DataTypes.DATE,
+    Comment: {
+        type: DataTypes.TEXT,
     },
 }, {
-    tableName: 'Enrollment',
+    tableName: 'Comment',
     timestamps: false,
 });
 
-
-Enrollment.belongsTo(Course, { foreignKey: 'CourseID' });
-Enrollment.belongsTo(User, { foreignKey: 'UserID' });
-module.exports = Enrollment;
+module.exports = Comment;

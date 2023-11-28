@@ -15,5 +15,8 @@ module.exports = {
     },
     login: function(req,res){
         
+    },
+    logout: function(req,res){
+        
     }
 }

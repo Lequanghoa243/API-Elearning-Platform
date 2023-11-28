@@ -1,7 +1,8 @@
 const rest = require('../utils/restware');
-const Course = require('../models/courses.model')
+const Course = require('../models/Courses.model')
 const { Op } = require('sequelize');
 const Lesson = require('../models/lesson.model')
+const Enrollment = require('../models/enrollment.model')
 module.exports = {
 
     getAll: function(req, res) {
@@ -53,7 +54,7 @@ module.exports = {
         coursename = coursename.replace(/-/g, ' ');
     
         try {
-            const attributes = ['CourseID', 'Title', 'Description', 'NumberofLesson', 'LearningTime'];
+            const attributes = ['CourseID', 'Title', 'Description', 'LearningTime'];
             const course = await Course.findOne({
                 where: { Title: coursename },
                 attributes: attributes,
@@ -61,7 +62,7 @@ module.exports = {
             });
     
             if (course) {
-                const attributesL = ['LessonID', 'CourseID', 'Title', 'Content', 'LessonOrder'];
+                const attributesL = ['LessonID', 'CourseID', 'Title', 'Content', 'OrderL'];
                 const lessons = await Lesson.findAll({
                     where: { CourseID: course.CourseID },
                     attributes: attributesL,
@@ -108,7 +109,77 @@ module.exports = {
     ,
     
 
-    getOneLesson:function(req,res){
+    getOneLesson: async function(req, res) {
+        let coursename = req.params.courseName;
+        let lessonId = req.params.id;
 
+        coursename = coursename.replace(/-/g, ' ');
+
+        try {
+            const course = await Course.findOne({
+                where: { Title: coursename },
+                raw: true,
+            });
+
+            if (course) {
+                const lesson = await Lesson.findOne({
+                    where: { CourseID: course.CourseID, LessonID: lessonId },
+                    raw: true,
+                });
+
+                if (lesson) {
+                    return rest.sendSuccessOne(res, lesson, 200);
+                } else {
+                    return rest.sendError(res, 1, 'lesson_not_found', 404, 'Lesson not found');
+                }
+            } else {
+                return rest.sendError(res, 1, 'course_not_found', 404, 'Course not found');
+            }
+        } catch (error) {
+            return rest.sendError(res, 1, 'get_one_lesson_fail', 400, error);
+        }
+    },
+
+    enrollCourse:async function (req, res) {
+        const { userID } = req.body; // Assuming the request body contains userID
+        let { courseName } = req.params; // Retrieve courseName from route parameters
+
+        try {
+            
+            courseName = courseName.replace(/-/g, ' ');
+            const course = await Course.findOne({
+                where: { Title: courseName },
+                attributes: ['CourseID'],
+                raw: true,
+            });
+
+            if (!course) {
+                return rest.sendError(res, 1, 'course_not_found', 404, 'Course not found');
+            }
+
+            const courseID = course.CourseID;
+
+            // Check if the user is already enrolled in the course
+            const existingEnrollment = await Enrollment.findOne({
+                where: { UserID: userID, CourseID: courseID },
+                raw: true,
+            });
+
+            if (existingEnrollment) {
+                return rest.sendError(res, 1, 'already_enrolled', 400, 'User is already enrolled in the course');
+            }
+
+            // If not enrolled, create a new enrollment record
+            await Enrollment.create({
+                UserID: userID,
+                CourseID: courseID,
+                EnrollmentDate: new Date(),
+            });
+
+            return rest.sendSuccessOne(res, { message: 'Enrollment successful' }, 201);
+        } catch (error) {
+            console.error('Error in enrollCourse:', error);
+            return rest.sendError(res, 1, 'enroll_course_fail', 400, error);
+        }
     },
 };

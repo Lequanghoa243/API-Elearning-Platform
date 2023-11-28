@@ -1,7 +1,7 @@
 const rest = require('../utils/restware');
 const path = require('../models/paths.model');
 const CoursePath = require('../models/coursePath.model');
-const Course = require('../models/courses.model');
+const Course = require('../models/Courses.model');
 const { Op } = require('sequelize');
 
 
@@ -66,11 +66,11 @@ module.exports = {
     
             const coursesInPath = await CoursePath.findAll({
                 where: { PathID: pathInstance.PathID },
-                attributes: ['OrderC'], // Include other attributes if needed
+                attributes: ['OrderC'], 
                 include: [
                     {
                         model: Course,
-                        attributes: ['CourseID', 'Title', 'Description', 'NumberofLesson', 'LearningTime'],
+                        attributes: ['CourseID', 'Title', 'Description', 'LearningTime'],
                         raw: true,
                     },
                 ],
@@ -91,7 +91,6 @@ module.exports = {
                     id: course['Course.CourseID'],
                     title: course['Course.Title'],
                     description: course['Course.Description'],
-                    numberOfLessons: course['Course.NumberofLesson'],
                     learningTime: course['Course.LearningTime'],
                     order: course['OrderC'],
                 })),

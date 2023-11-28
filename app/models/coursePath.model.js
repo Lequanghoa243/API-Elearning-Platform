@@ -1,7 +1,7 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/sequelize.util');
-const Course = require('./courses.model');
+const Course = require('./Courses.model');
 const Path = require('./paths.model')
 const CoursePath = sequelize.define('CoursePath', {
     CoursePathID: {

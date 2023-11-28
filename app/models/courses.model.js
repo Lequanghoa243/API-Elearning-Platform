@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/sequelize.util');
+const Category = require('./category.model');
 
 
 const Course = sequelize.define('Course', {
@@ -15,15 +16,18 @@ const Course = sequelize.define('Course', {
     Description: {
         type: DataTypes.TEXT,
     },
-    NumberofLesson: {
-        type: DataTypes.INTEGER,
-    },
     LearningTime: {
         type: DataTypes.INTEGER,
+    },
+    CategoryID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     },
 }, {
     tableName: 'Course',
     timestamps: false,
 });
+
+Course.belongsTo(Category, { foreignKey: 'CategoryID' });
 
 module.exports = Course;
